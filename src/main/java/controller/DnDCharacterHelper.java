@@ -22,6 +22,22 @@ public class DnDCharacterHelper {
 		em.close();
 	}
 	
+	public void updateDnDCharacter(DnDCharacter toEdit) {
+		EntityManager em = emfactory.createEntityManager();
+		em.getTransaction().begin();
+		em.merge(toEdit);
+		em.getTransaction().commit();
+		em.close();
+	}
+
+	public DnDCharacter searchForDnDCharacterById(int idToEdit) {
+	EntityManager em = emfactory.createEntityManager();
+	em.getTransaction().begin();
+	DnDCharacter found = em.find(DnDCharacter.class, idToEdit);
+	em.close();
+	return found;
+	}
+	
 	public List<DnDCharacter> showAllDnDCharacters(){
 		EntityManager em = emfactory.createEntityManager();
 		List<DnDCharacter> allItems = em.createQuery("SELECT i FROM DnDCharacter i").getResultList();

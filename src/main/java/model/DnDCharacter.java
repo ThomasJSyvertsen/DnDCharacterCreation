@@ -1,7 +1,5 @@
 package model;
 
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,6 +23,8 @@ public class DnDCharacter {
 	private String characterName;
 	@Column(name = "HITPOINTS")
 	private int hitPoints;
+	@Column(name="CURRENTHITPOINTS")
+	private int currentHitPoints;
 	@Column(name = "HITDAMAGE")
 	private int hitDamage;
 
@@ -47,12 +47,40 @@ public class DnDCharacter {
 		this.playerName = playerName;
 		this.hitPoints = hitPoints;
 		this.hitDamage = hitDamage;
+		this.currentHitPoints = hitPoints;
+	}
+	
+	public void takeDamage(int damage) {
+		if (damage <= this.currentHitPoints) {
+			currentHitPoints -= damage;
+		} else {
+			currentHitPoints = 0;
+		}
+
+	}
+	
+	public void doDamage(DnDCharacter toTakeDamage) {
+		toTakeDamage.takeDamage(this.hitDamage);
 	}
 	
 	public String returnDnDCharacterDetails() {
 			return ("Player name: " + this.getPlayerName() + " Character name: " + this.getCharacterName() + " Hit Points: " 
-	+ this.getHitPoints() + " Hit Damage: " + this.getHitDamage());
+	+ this.getHitPoints() + " Current Hit Points: " + this.getCurrentHitPoints() + " Hit Damage: " + this.getHitDamage());
 		}
+
+	/**
+	 * @return the currentHitPoints
+	 */
+	public int getCurrentHitPoints() {
+		return currentHitPoints;
+	}
+
+	/**
+	 * @param currentHitPoints the currentHitPoints to set
+	 */
+	public void setCurrentHitPoints(int currentHitPoints) {
+		this.currentHitPoints = currentHitPoints;
+	}
 
 	/**
 	 * @return the characterName

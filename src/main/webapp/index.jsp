@@ -8,17 +8,10 @@
 </head>
 
 <body>
-	<h1>Create a DnD Character!</h1>
-	<form action="addDnDCharacterServlet" method="post">
-		<p>Enter your name:</p>
-		<input type="text" name="playerName" size="20"> 
-		<p>Enter character name: </p>
-		<input type="text" name="characterName" size="20">
-		<p>Enter hit points: </p>
-		<input type="text" name="hitPoints" size="4">
-		<p>Enter hit damage: </p>
-		<input type="text" name="hitDamage" size="4">
-		<input type="submit" value="Create Character" />
-	</form>
+	<h1>What would you like to do?</h1>
+	<ul>
+		<li><a href="createCharacter.jsp">Create a character</a></li>
+		<li><a href="simulateBattle.jsp">Simulate a battle</a></li>
+	</ul>
 </body>
 </html>

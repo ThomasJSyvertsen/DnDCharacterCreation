@@ -37,7 +37,7 @@ public class addDnDCharacterServlet extends HttpServlet {
 		DnDCharacter toAdd = new DnDCharacter(playerName, characterName, Integer.parseInt(hitPoints), Integer.parseInt(hitDamage));
 		
 		ch.insertCharacter(toAdd);
-				getServletContext().getRequestDispatcher("/result.jsp").forward(request, response);
+				getServletContext().getRequestDispatcher("/resultCreateCharacter.jsp").forward(request, response);
 	}
 
 }
