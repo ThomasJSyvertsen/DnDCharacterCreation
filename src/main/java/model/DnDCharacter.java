@@ -1,9 +1,17 @@
 package model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -11,7 +19,7 @@ import javax.persistence.Table;
  */
 
 @Entity
-@Table(name = "dndcharacter")
+@Table(name = "DNDCHARACTER")
 public class DnDCharacter {
 	@Id
 	@GeneratedValue
@@ -21,12 +29,21 @@ public class DnDCharacter {
 	private String playerName;
 	@Column(name = "CHARACTERNAME")
 	private String characterName;
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private Attributes attributes;
 	@Column(name = "HITPOINTS")
 	private int hitPoints;
-	@Column(name="CURRENTHITPOINTS")
+	@Column(name = "CURRENTHITPOINTS")
 	private int currentHitPoints;
 	@Column(name = "HITDAMAGE")
 	private int hitDamage;
+	@OneToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "DNDCHARACTER_ITEMS",
+			joinColumns = @JoinColumn(name = "DNDCHARACTER_FK"),
+			inverseJoinColumns = @JoinColumn(name = "ITEMS_FK")
+	)
+	private List<Items> items;
+	
 
 	/**
 	 * 
@@ -36,20 +53,37 @@ public class DnDCharacter {
 	}
 
 	/**
+	 * @param playerName
+	 * @param characterName
+	 * @param hitPoints
+	 * @param hitDamage
+	 */
+	public DnDCharacter(String playerName, String characterName, int hitPoints, int hitDamage) {
+		super();
+		this.playerName = playerName;
+		this.characterName = characterName;
+		this.hitPoints = hitPoints;
+		this.hitDamage = hitDamage;
+	}
+
+	/**
 	 * @param characterName
 	 * @param playerName
 	 * @param hitPoints
 	 * @param hitDamage
 	 */
-	public DnDCharacter(String characterName, String playerName, int hitPoints, int hitDamage) {
+	public DnDCharacter(String characterName, String playerName, Attributes attributes, int hitPoints, int hitDamage) {
 		super();
 		this.characterName = characterName;
 		this.playerName = playerName;
+		this.attributes = attributes;
 		this.hitPoints = hitPoints;
 		this.hitDamage = hitDamage;
 		this.currentHitPoints = hitPoints;
 	}
 	
+	
+
 	public void takeDamage(int damage) {
 		if (damage <= this.currentHitPoints) {
 			currentHitPoints -= damage;
@@ -58,15 +92,12 @@ public class DnDCharacter {
 		}
 
 	}
-	
+
 	public void doDamage(DnDCharacter toTakeDamage) {
 		toTakeDamage.takeDamage(this.hitDamage);
 	}
 	
-	public String returnDnDCharacterDetails() {
-			return ("Player name: " + this.getPlayerName() + " Character name: " + this.getCharacterName() + " Hit Points: " 
-	+ this.getHitPoints() + " Current Hit Points: " + this.getCurrentHitPoints() + " Hit Damage: " + this.getHitDamage());
-		}
+	
 
 	/**
 	 * @return the currentHitPoints
@@ -111,6 +142,20 @@ public class DnDCharacter {
 	}
 
 	/**
+	 * @return the attributes
+	 */
+	public Attributes getAttributes() {
+		return attributes;
+	}
+
+	/**
+	 * @param attributes the attributes to set
+	 */
+	public void setAttributes(Attributes attributes) {
+		this.attributes = attributes;
+	}
+
+	/**
 	 * @return the hitPoints
 	 */
 	public int getHitPoints() {
@@ -144,4 +189,34 @@ public class DnDCharacter {
 	public int getId() {
 		return id;
 	}
+
+	/**
+	 * @return the items
+	 */
+	public List<Items> getItems() {
+		return items;
+	}
+
+	/**
+	 * @param items the items to set
+	 */
+	public void setItems(List<Items> items) {
+		this.items = items;
+	}
+	
+	
+	
+	@Override
+	public String toString() {
+		String itemsString = "";
+		for (Items item: this.items) {
+			itemsString += item.toString() + "\n";
+		}
+		return ("Character Info:\n[Player name: " + this.getPlayerName() + "]\n[Character name: " + this.getCharacterName() + "]\n[Hit Points: "
+				+ this.getHitPoints() + "]\n[Current Hit Points: " + this.getCurrentHitPoints() + "]\n[Hit Damage: "
+				+ this.getHitDamage() + "]\n[Attributes:\n  [Strength: " + this.attributes.getStrength() + "]\n  [Intelligence: " + this.attributes.getIntelligence()
+						+ "\n  [Wisdom: " + this.attributes.getWisdom() + "]\n  [Dexterity: " + this.attributes.getDexterity() + "]\n  [Constitution: " 
+						+ this.attributes.getConstitution() + "]\n  [Charisma: " + this.attributes.getCharisma() + "]\n]\n[Items:\n[" + itemsString + " ]\n]");
+	}
+
 }

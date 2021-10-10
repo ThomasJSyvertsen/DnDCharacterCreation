@@ -82,7 +82,7 @@ public class StartProgram {
 		List<DnDCharacter> allDnDCharacters = ch.showAllDnDCharacters();
 		
 		for(DnDCharacter singleItem : allDnDCharacters) {
-			System.out.println(singleItem.returnDnDCharacterDetails());
+			System.out.println(singleItem.toString());
 		}
 
 	}
