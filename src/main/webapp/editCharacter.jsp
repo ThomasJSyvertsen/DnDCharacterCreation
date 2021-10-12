@@ -8,16 +8,23 @@
 	href="CSS/bootstrap-4.0.0-dist/css/bootstrap.min.css" />
 <title>DnD Characters</title>
 </head>
-
 <body>
+
 	<div class="container">
 		<div class="row justify-content-center">
-			<h1 class="jumbotron">Create a DnD Character!</h1>
+			<h1 class="jumbotron">Edit a DnD Character!</h1>
 		</div>
 
 		<div class="row">
-			<form class="col" action="addDnDCharacterServlet" method="post">
+			<form class="col" action="editDnDCharacterServlet" method="post">
 				<div class="form-row">
+					<div class="col col-4">
+						<div class="form-group">
+							<label for="playerId">Enter Character Id: 
+							</label> <input type="text" class="form-control" id="playerId" 
+								name="playerId" placeholder="1">
+						</div>
+					</div>
 					<div class="col col-4">
 						<div class="form-group">
 							<label for="playerName">Enter your name:</label> <input
@@ -91,7 +98,7 @@
 
 				<div class="form-row">
 					<div class="col">
-						<button type="submit" class="btn btn-primary">Create
+						<button type="submit" class="btn btn-primary">Update
 							Character</button>
 					</div>
 				</div>
@@ -99,6 +106,5 @@
 			</form>
 		</div>
 	</div>
-
 </body>
 </html>
